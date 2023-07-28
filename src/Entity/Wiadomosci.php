@@ -17,14 +17,17 @@ class Wiadomosci
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $data_wyslania = null;
 
-    #[ORM\Column]
-    private ?int $id_tokenu = null;
+    #[ORM\OneToOne(inversedBy: 'id_tokenu', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tokeny $id_tokenu = null;
 
     #[ORM\Column]
     private ?bool $status = null;
 
     #[ORM\Column(length: 2000, nullable: true)]
     private ?string $logi = null;
+
+ 
 
     public function getId(): ?int
     {
@@ -43,18 +46,18 @@ class Wiadomosci
         return $this;
     }
 
-    public function getIdTokenu(): ?int
+    public function getIdTokenu(): ?Tokeny
     {
         return $this->id_tokenu;
     }
 
-    public function setIdTokenu(int $id_tokenu): static
+    public function setIdTokenu(Tokeny $id_tokenu): static
     {
         $this->id_tokenu = $id_tokenu;
 
         return $this;
     }
-
+    
     public function isStatus(): ?bool
     {
         return $this->status;
@@ -78,4 +81,6 @@ class Wiadomosci
 
         return $this;
     }
+
+   
 }

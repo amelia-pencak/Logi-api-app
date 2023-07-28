@@ -13,8 +13,8 @@ class Tokeny
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $id_tokenu = null;
+    #[ORM\OneToOne(mappedBy: 'id_tokenu', cascade: ['persist', 'remove'])]
+    private ?Wiadomosci $id_tokenu = null;
 
     #[ORM\Column(length: 1000)]
     private ?string $token = null;
@@ -24,13 +24,18 @@ class Tokeny
         return $this->id;
     }
 
-    public function getIdTokenu(): ?int
+    public function getIdTokenu(): ?Wiadomosci
     {
         return $this->id_tokenu;
     }
 
-    public function setIdTokenu(int $id_tokenu): static
+    public function setIdTokenu(Wiadomosci $id_tokenu): static
     {
+        // set the owning side of the relation if necessary
+        if ($id_tokenu->getIdTokenu() !== $this) {
+            $id_tokenu->setIdTokenu($this);
+        }
+
         $this->id_tokenu = $id_tokenu;
 
         return $this;
@@ -46,5 +51,5 @@ class Tokeny
         $this->token = $token;
 
         return $this;
-    }
+    } 
 }
