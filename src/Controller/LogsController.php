@@ -1,9 +1,8 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Message;
-use App\Entity\Wiadomosc;
-use App\Repository\MessageRepository;
+use App\Entity\Tokeny;
+use App\Entity\Wiadomosci;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,40 +18,44 @@ class LogsController extends AbstractController
     public function hello(Request $request,EntityManagerInterface $inter ): JsonResponse // Metoda przymuje obiekt żądania HTTP
     {
       $data = json_decode($request->getContent(), true); //pobiera obiekt i dekoduje z formatu JSON do tablicy PHP
+
       if($data == null) {
         return new JsonResponse(['error' => 'Brak danych w żądaniu'], 400);
       }
 
-      if (!isset($data['date'] )) {
-        return new JsonResponse(['error' => 'Brak liczby w żądaniu'], 400);
+      if (!isset($data['data_wyslania'] )) {
+        return new JsonResponse(['error' => 'Brak daty w żądaniu'], 400);
+      }
+      if (!isset($data['id_tokenu'] )) {
+        return new JsonResponse(['error' => 'Brak id_tokenu w żądaniu'], 400);
+      }
+      if (!isset($data['status'] )) {
+        return new JsonResponse(['error' => 'Brak statusu w żądaniu'], 400);
       }
     
-      $date = $data['date'];
-      $format = 'd-m-Y';
-      $validDate = DateTime::createFromFormat($format, $date);
-      if ($validDate->format($format) != $date) {
-          return new JsonResponse(['error' => 'Liczba musi być liczbą całkowitą'], 400);
-      }
 
-      $time =$data['time'];
-      $format = 'h:i:s';
-      $validTime = DateTime::createFromFormat($format, $date);
-      if ($validTime->format($format) != $time) {
-          return new JsonResponse(['error' => 'Liczba musi być liczbą całkowitą'], 400);
-      }
-
-      if (!is_int($data['status'])) {
-          return new JsonResponse(['error' => 'Liczba musi być liczbą całkowitą'], 400);
+      $data_wyslania = $data['data_wyslania'];
+      $format = "Y-m-d H:i:s";
+      $data_wyslania_format_datetime = DateTime::createFromFormat($format, $data_wyslania);
+      if ($data_wyslania_format_datetime->format($format) != $data_wyslania) {
+          return new JsonResponse(['error' => 'Zly format daty'], 400);
       }
     
       $status = $data['status'];
-      if(is_string($status)) {
-        return new JsonResponse(['error' => 'Liczba musi być liczbą całkowitą'], 400);
-      }
-
-      $wiadomosc = new Wiadomosc();
+      $logi = $data['logi'];
       
-      // $inter->persist($message);
+      $id_tokenu = new Tokeny();
+      $id_tokenu->setToken($data['id_tokenu']); // assuming this is a token, not a Tokeny id
+      $inter->persist($id_tokenu);
+      $inter->flush();
+
+      $wiadomosc = new Wiadomosci();
+      $wiadomosc->setDataWyslania($data_wyslania_format_datetime);
+      $wiadomosc->setStatus($status);
+      $wiadomosc->setLogi($logi);
+      $wiadomosc->setIdTokenu($id_tokenu);
+
+      $inter->persist($wiadomosc);
       $inter->flush();
 
       if ($wiadomosc->getId()) {

@@ -18,7 +18,7 @@ class Wiadomosci
     private ?\DateTimeInterface $data_wyslania = null;
 
     #[ORM\OneToOne(inversedBy: 'id_tokenu', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]  //false ->true
     private ?Tokeny $id_tokenu = null;
 
     #[ORM\Column]
@@ -57,7 +57,7 @@ class Wiadomosci
 
         return $this;
     }
-    
+
     public function isStatus(): ?bool
     {
         return $this->status;
