@@ -14,7 +14,7 @@ class Wiadomosci
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $data_wyslania = null;
 
     #[ORM\Column]
