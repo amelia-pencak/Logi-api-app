@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\WiadomosciRepository;
+use App\Repository\WiadomoscRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: WiadomosciRepository::class)]
-class Wiadomosci
+#[ORM\Entity(repositoryClass: WiadomoscRepository::class)]
+class Wiadomosc
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,9 +17,8 @@ class Wiadomosci
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $data_wyslania = null;
 
-    #[ORM\OneToOne(inversedBy: 'id_tokenu', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]  //false ->true
-    private ?Tokeny $id_tokenu = null;
+    // #[ORM\Column]
+    // private ?int $id_token = null;
 
     #[ORM\Column]
     private ?bool $status = null;
@@ -27,7 +26,9 @@ class Wiadomosci
     #[ORM\Column(length: 2000, nullable: true)]
     private ?string $logi = null;
 
- 
+    #[ORM\ManyToOne(inversedBy: 'id_Tokenow')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Token $id_tokenu = null;
 
     public function getId(): ?int
     {
@@ -42,18 +43,6 @@ class Wiadomosci
     public function setDataWyslania(\DateTimeInterface $data_wyslania): static
     {
         $this->data_wyslania = $data_wyslania;
-
-        return $this;
-    }
-
-    public function getIdTokenu(): ?Tokeny
-    {
-        return $this->id_tokenu;
-    }
-
-    public function setIdTokenu(Tokeny $id_tokenu): static
-    {
-        $this->id_tokenu = $id_tokenu;
 
         return $this;
     }
@@ -82,5 +71,15 @@ class Wiadomosci
         return $this;
     }
 
-   
+    public function getIdTokenu(): ?Token
+    {
+        return $this->id_tokenu;
+    }
+
+    public function setIdTokenu(?Token $id_tokenu): static
+    {
+        $this->id_tokenu = $id_tokenu;
+
+        return $this;
+    }
 }

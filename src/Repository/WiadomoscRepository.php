@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Wiadomosci;
+use App\Entity\Wiadomosc;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Wiadomosci>
+ * @extends ServiceEntityRepository<Wiadomosc>
  *
- * @method Wiadomosci|null find($id, $lockMode = null, $lockVersion = null)
- * @method Wiadomosci|null findOneBy(array $criteria, array $orderBy = null)
- * @method Wiadomosci[]    findAll()
- * @method Wiadomosci[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Wiadomosc|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Wiadomosc|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Wiadomosc[]    findAll()
+ * @method Wiadomosc[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WiadomosciRepository extends ServiceEntityRepository
+class WiadomoscRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Wiadomosci::class);
+        parent::__construct($registry, Wiadomosc::class);
     }
 
 //    /**
-//     * @return Wiadomosci[] Returns an array of Wiadomosci objects
+//     * @return Wiadomosc[] Returns an array of Wiadomosc objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class WiadomosciRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Wiadomosci
+//    public function findOneBySomeField($value): ?Wiadomosc
 //    {
 //        return $this->createQueryBuilder('w')
 //            ->andWhere('w.exampleField = :val')
