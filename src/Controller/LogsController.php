@@ -48,7 +48,7 @@ class LogsController extends AbstractController
       //     return new JsonResponse(['error' => 'Nie znaleziono tokenu o podanym id'], 400);
       // }
 
-      $id_tokenu = $inter->getRepository(Token::class)->findOneBy(['wartoscTokenu' => $data['token']]);
+      $id_tokenu = $inter->getRepository(Token::class)->findOneBy(['token' => $data['token']]);
       if (!$id_tokenu) {
           return new JsonResponse(['error' => 'Nie znaleziono tokenu o podanym id'], 400);
       }
