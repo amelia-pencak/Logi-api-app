@@ -12,7 +12,6 @@ class LogsRequestValidator
             return new JsonResponse(['error' => 'Brak danych w żądaniu'], 400);
         }
         
-
         if (!isset($data['data_wyslania'])) {
             return new JsonResponse(['error' => 'Brak daty w żądaniu'], 400);
         }

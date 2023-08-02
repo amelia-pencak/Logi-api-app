@@ -17,9 +17,6 @@ class Wiadomosc
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $data_wyslania = null;
 
-    // #[ORM\Column]
-    // private ?int $id_token = null;
-
     #[ORM\Column]
     private ?bool $status = null;
 
